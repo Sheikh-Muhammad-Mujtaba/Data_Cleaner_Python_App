@@ -34,7 +34,6 @@ streamlit run app.py
 
 ### Handling Multiple File Merging Efficiently
 
-- Currently, it dont support files of same name.
 - **Issue:** If files have different structures (columns missing or in different orders), merging may cause misalignment.
 - **Possible Fix:** Implement a schema-matching mechanism to handle varying column structures intelligently.
 
