@@ -1,0 +1,23 @@
+[project]
+name = "data-sweeper"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Sheikh-Muhammad-Mujtaba",email = "smujtabaja@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas (>=2.2.3,<3.0.0)",
+    "streamlit (>=1.42.1,<2.0.0)",
+    "openpyxl (>=3.1.5,<4.0.0)",
+    "lxml (>=5.3.1,<6.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "data_sweeper", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
