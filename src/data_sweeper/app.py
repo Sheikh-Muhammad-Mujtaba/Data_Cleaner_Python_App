@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 from io import BytesIO
-import re
 
 # Set up the page
 st.set_page_config(
@@ -134,8 +133,19 @@ uploaded_files = st.file_uploader(
 )
 
 if uploaded_files:
-    file_to_remove = uploaded_files[-1]
+    # Track file names to detect duplicates
+    file_names = [file.name for file in uploaded_files]
+    unique_files = []
+
     for file in uploaded_files:
+        if file_names.count(file.name) > 1:
+            st.error(f"❌ **Duplicate File Detected:** {file.name}")
+            continue  
+        else:
+            unique_files.append(file)
+
+    # Process only unique files
+    for file in unique_files:
         file_extension = os.path.splitext(file.name)[-1].lower()
         df = None  # Initialize dataframe
 
@@ -149,20 +159,11 @@ if uploaded_files:
         else:
             st.error(f"❌ File type not supported: {file_extension}")
             continue
-        # Check if the file is already uploaded
-        if any(f.name == file.name for f in uploaded_files if f != file) and len(uploaded_files) > 1:
-            #st.error(f"📂 **File Already Uploaded:** {file.name}")
-            uploaded_files.remove(file_to_remove)
-            print(uploaded_files)
-            pass
-        elif len(uploaded_files) == 1:
-            st.write(f"**📂 File Name:** {file.name}")
-            st.write(f"**📄 File Type:** {file_extension}")
-            st.write(f"**📊 File Size:** {file.size / 1024:.2f} KB")
-        else:
-            st.write(f"**📂 File Name:** {file.name}")
-            st.write(f"**📄 File Type:** {file_extension}")
-            st.write(f"**📊 File Size:** {file.size / 1024:.2f} KB")
+
+        # Display file details
+        st.write(f"**📂 File Name:** {file.name}")
+        st.write(f"**📄 File Type:** {file_extension}")
+        st.write(f"**📊 File Size:** {file.size / 1024:.2f} KB")
 
         st.write("📋 **Preview of the Data**")
         st.dataframe(df.head())
@@ -236,27 +237,12 @@ if uploaded_files:
 
                 buffer.seek(0)
 
-                # Ensure session state variables exist
-                if "file_converted" not in st.session_state:
-                    st.session_state.file_converted = False
-                if "download_clicked" not in st.session_state:
-                    st.session_state.download_clicked = False
-
-                # Mark the file as converted
-                st.session_state.file_converted = True
-
                 # Download Button
-                download_clicked = st.download_button(
+                st.download_button(
                     label=f"📥 Click Here to Download {file_name} 💾",
                     data=buffer,
                     file_name=file_name,
                     mime=mime_type
                 )
-
-                if download_clicked:
-                    st.session_state.download_clicked = True
-                    st.success(
-                        f"🎉 {file_name} Converted and Downloaded Successfully! 🎉")
-                elif st.session_state.file_converted:
-                    st.info(
-                        "⚠️ Your file has been converted! Please click the download button to save it.")
+                st.success(
+                    f"🎉 {file_name} Converted and Downloaded Successfully! 🎉")
