@@ -2,7 +2,7 @@
 
 ## ✨ Overview
 
-**Data Cleaner Pro** is a powerful Streamlit-based tool that allows users to upload, clean, transform, and convert data files (CSV, XLSX, Markdown, HTML). applies various cleaning operations, and provides file conversion options for better usability.
+**Data Cleaner Pro** is a powerful Streamlit-based tool that allows users to upload, clean, transform, and convert data files (CSV, XLSX, Markdown, HTML). It applies various cleaning operations and provides file conversion options for better usability.
 
 ## 🚀 Features
 
@@ -20,7 +20,7 @@
 
 Ensure you have Python installed. Recommended version: **Python 3.8+**
 
-## 2️⃣ Install Dependencies
+### 2️⃣ Install Dependencies
 ```bash
 poetry add streamlit pandas openpyxl
 ```
